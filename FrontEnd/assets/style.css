@@ -98,6 +98,18 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+nav a {
+	padding: 0 10px;
+	font-size: 1em;
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	color: #B1663C;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -107,8 +119,7 @@ li:hover {
 }
 #introduction img {
 	display: block;
-	margin: auto;
-	width: 80%;
+	width: 90%;
 }
 
 #introduction article {
@@ -116,6 +127,7 @@ li:hover {
 }
 #introduction h2 {
 	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 #introduction p {
@@ -229,3 +241,300 @@ footer nav ul {
 #password-forgot:hover {
 	color: #B1663C;
 }
+
+#wrong-login {
+	color: red;
+	margin-top: 10px;
+}
+
+#edit {
+	z-index: 11;
+	background-color: black;
+	width: 100vw;
+	left: 0%;
+	right: 0%;
+	position: absolute;
+	top: 0%;
+	bottom: 0%;
+	height: 60px;
+	margin: 0%;
+	display: flex;
+	color: white;
+	justify-content: center;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+#edit > * {
+	padding-left: 10px;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+#publish {
+	border-radius: 20px;
+	color: black;
+	background-color: white;
+	width: auto;
+	margin-left: 20px;
+}
+
+#publish p {
+	margin: 11px 23px 11px 10px;
+}
+
+.edit {
+	display: flex;
+}
+
+.edit p {
+	padding-left: 10px;
+}
+
+.edit:hover {
+	color:#B1663C
+}
+
+#photo {
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.photo-container {
+	width: auto;
+	height: auto;
+}
+
+.photo-container div {
+	padding-top: 15px;
+}
+
+
+main {
+	width: 80%;
+	margin: auto;
+}
+
+#projets {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 30px;
+}
+
+#projets h2 {
+	margin-top: auto;
+	margin-bottom: auto;
+	padding-right: 30px;
+}
+
+#edit-background {
+	width:      100%;
+	height:     100%; 
+	z-index:    10;
+	top:        0; 
+	left:       0; 
+	position:   fixed; 
+	background: rgba(0, 0, 0, 0.3);
+	display: flex;
+}
+
+#modal {
+	width: 645px;
+	height: auto;
+	background: rgb(255, 255, 255);
+	position: relative;
+	margin: auto auto;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#modal > * {
+	margin: 0 auto;
+}
+
+#modal-galerie {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	margin: 25px 105px 25px 105px;
+}
+
+#modal-galerie figure {
+	width: 78px;
+	height: 104px;
+	margin-bottom: 25px;
+	margin-right: 7px;
+	position: relative;
+}
+
+#modal > h2 {
+	font-family: 'Work Sans';
+	font-size:26px;
+	color: black;
+	font-weight: 400;
+	margin-top: 60px;
+	margin-bottom: 46px;
+;
+}
+
+#modal-galerie figure img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+#modal-galerie i {
+	color: white;
+	background-color: black;
+	margin: 4px;
+	font-size: 10px;
+}
+
+.icon {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	height: auto;
+	width: auto;;
+	background-color: black;
+	color: black;
+}
+
+.icon-move {
+	position: absolute;
+	top: 6px;
+	right: 26px;
+	height: auto;
+	width: auto;;
+	background-color: black;
+	color: black;
+}
+
+#quit {
+	position: absolute;
+	top: 35px;
+	right: 35px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+#space {
+	width: 420px;
+	height: 1px;
+	margin-bottom: 38px;
+	background-color: black;
+}
+
+#modal > .filter-selected > h2 {
+	margin: 10px 49px 10px 49px;
+}
+
+#modal > .filter-selected {
+	margin-bottom: 23px;
+}
+
+#delete-all {
+	padding-bottom: 48px;
+	color: red;
+	font-size: 14px;
+}
+
+#login {
+	cursor: pointer;
+}
+
+#logout {
+	cursor: pointer;
+}
+
+#nav-projets {
+	cursor: pointer;
+}
+
+#contact {
+	cursor: pointer;
+}
+
+.bold {
+	cursor: pointer;
+}
+
+.edit {
+	cursor: pointer;
+}
+
+#return {
+	position: absolute;
+	top: 35px;
+	left: 35px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+
+.submit h2 {
+	color: #FFFFFF;
+	margin: 10px 49px 10px 49px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.submit {
+	background: #A7A7A7;
+	border: 1px solid #A7A7A7;
+	border-radius: 60px;
+	margin-bottom: 23px;
+	margin-left: 1%;
+}
+
+
+#photo {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#titre {
+	height: 50px;
+	width: 420px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 20px;
+}
+
+#photo select {
+	height: 50px;
+	width: 420px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 47px;
+}
+
+
+#photo label {
+	margin: 2em 0 1em 0;
+}
+
+#file {
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F7;
+	cursor: pointer;
+}
+
+#drop_zone {
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F7;
+	cursor: pointer;
+  }

@@ -34,6 +34,7 @@ exports.login = async (req, res) => {
 		if(!valid){
 			return res.status(401).json({ error: new Error('Not Authorized') })
 		}
+		console.log("ok")
 		return res.status(200).json({
 			userId: user.id,
 			token: jwt.sign(

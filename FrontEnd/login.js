@@ -11,6 +11,36 @@ document.getElementById("login").addEventListener("submit", async function (even
       });
       
       let result = await response.json();
-      alert(result.message);
+      console.log(result);
+      if (response.status != 200) {
+        let f = createElementFromHTML(`<p id="wrong-login">utilisateur ou mot de passe incorrect</p>`);
+        let password = document.querySelector("#password");
+        let r = document.querySelector("#wrong-login");
+        if (r)
+            r.remove();
+        insertAfter(f, password);  
+
+      }
+      else {
+        console.log(result);
+        localStorage.setItem("token", result.token);
+        window.location.href = "index.html";
+      }
+      
 });
   
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+
+let projets = document.querySelector("#nav-projets");
+projets.onclick = function() {
+    window.location.href = "index.html"
+}
+
+
+let contact = document.querySelector("#contact");
+contact.onclick = function() {
+    window.location.href = "index.html"
+}
