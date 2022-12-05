@@ -28,10 +28,7 @@ document.getElementById("login").addEventListener("submit", async function (even
       }
       
 });
-  
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
+
 
 
 let projets = document.querySelector("#nav-projets");

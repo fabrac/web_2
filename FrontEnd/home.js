@@ -3,6 +3,16 @@ let filtersSet = new Set();
 let galerySet = new Set();
 let gallery;
 
+class Upload {
+    constructor() {
+        this.image = null;
+        this.url = null;
+        this.title = null;
+        this.category = null;                                
+    }
+}
+
+let upload = new Upload();
 
 fetch("http://localhost:5678/api/categories")
     .then(data => categories = data.json())
@@ -37,15 +47,12 @@ fetch("http://localhost:5678/api/categories")
         filtersSet.forEach((element) => {
             element.element.className =  'filter';
             let x = event.target || event.srcElement;
-            console.log(x.textContent);
-            console.log(element.element.textContent);
             if (x.textContent == element.element.textContent)
                 i = j;
             j++;
         });
         this.className = 'filter-selected';
         gallery.innerHTML = '';
-        console.log(i);
         galerySet.forEach(element => {
             if (element.category == i || i == 0)
                 gallery.appendChild(element.element);
@@ -64,7 +71,6 @@ fetch("http://localhost:5678/api/works")
             let article = new Article(element, jsonArticle.categoryId, jsonArticle.imageUrl, jsonArticle.title, jsonArticle.id);
             galerySet.add(article);
             gallery.appendChild(element);
-            console.log(jsonArticle);
         }
     });
 
@@ -174,7 +180,6 @@ function create_modal() {
             }})
             .then(res => res)
             .then(res => {
-                console.log(res);
                 if (res.status == 204) {
                     galerySet.forEach(element => {
                         if (element.id == id) {
@@ -193,7 +198,7 @@ function create_modal() {
     modal.appendChild(modal_galerie);
     let space = createElementFromHTML(`<div id="space"></div>`);
     modal.appendChild(space);
-    let add_photo = createElementFromHTML(`<div class="filter-selected"><h2>Ajouter une photo</h2></div>`);
+    let add_photo = createElementFromHTML(`<div class="filter-selected"><h2>Ajout  photo</h2></div>`);
     add_photo.onclick = function() {
         background.remove();
         add_photo_modal();
@@ -246,41 +251,138 @@ function add_photo_modal() {
         };
     modal.appendChild(quit);
     modal.appendChild(back);
-    let select = `<label for="select-categorie">Catégorie</label><select id="select-categorie"><option value=""></option>`;
+    let select = `<label for="select-categorie">Catégorie</label><div id="select-container"><i class="fa-solid fa-chevron-down"></i><select id="select-categorie" onchange="editUpload('category', event);" onclick="selectClick();"><option value=""></option>`;
     filtersSet.forEach((element) => {
         if (element.id != 0)
             select += `<option value="${element.id}">${element.name}</option>`;
     });
-    select += '</select>';
-    let form = createElementFromHTML(`<form id="photo" method="post" enctype="multipart/form-data"><div
+    select += '</select></div>';
+    let form = createElementFromHTML(`<form id="addphoto" method="post" enctype="multipart/form-data"><div
     id="drop_zone"
     ondrop="dropHandler(event);"
-    ondragover="dragOverHandler(event);">
-    <p></i>.</p>
-  </div><label for="titre">Titre</label><input type="text" id="titre" name="titre"></input>${select}</form>`);
+    ondragover="dragOverHandler(event);"><img style="display: none;"id="addphoto-img" src="#"></img><div class="container">
+    <i class="fa-regular fa-image"></i>
+    <h2 id="drop_zone__button" onclick="document.getElementById('selectedFile').click();">+ Ajouter photo</h2>
+    <h3>jpg, png : 4mo max</h3> 
+  <input type="file" id="selectedFile" style="display: none;" accept=".jpg,.png" onchange = addFile(this.files[0]); /></div></div><label for="titre">Titre</label><input type="text" id="titre" name="titre" oninput = "editUpload('title', event);"></input>${select}</form>`);
     modal.appendChild(form);
     modal.appendChild(createElementFromHTML(`<div id="space"></div>`));
-    modal.appendChild(createElementFromHTML(`<div class="submit"><h2>Valider</h2></div>`));
+    modal.appendChild(createElementFromHTML(`<div id="submit" onclick="submitPhoto(this);"><h2>Valider</h2></div>`));
 }
 
 function dropHandler(ev) {
-    console.log('File(s) dropped');
     ev.preventDefault();
+    let upload = false;
     if (ev.dataTransfer.items) {
       [...ev.dataTransfer.items].forEach((item, i) => {
-        if (item.kind === 'file') {
+        if (item.kind === 'file' && !upload) {
           const file = item.getAsFile();
-          console.log(`… file[${i}].name = ${file.name}`);
+          upload = addFile(file);
         }
       });
     } else {
       [...ev.dataTransfer.files].forEach((file, i) => {
-        console.log(`… file[${i}].name = ${file.name}`);
+        if (!upload)
+            upload  = addFile(file);
       });
     }
-  }
+}
 
-  function dragOverHandler(ev) {
-    console.log('File(s) in drop zone');
+function dragOverHandler(ev) {
     ev.preventDefault();
-  }
+}
+
+function addFile(file) {
+    let error = document.querySelector('#photo-error');
+    if (error) {
+        error.remove();
+    }
+    let img = document.querySelector('#addphoto-img');
+    let extension = getExtension(file.name).toLowerCase();
+    let box = document.querySelector('#drop_zone');
+    if (extension != "png" && extension != "jpg") {
+        let e = createElementFromHTML(`<span id="photo-error">Mauvais format: ${extension}, seuls jpg et png sont acceptés</span>`);
+        insertAfter(e, box);
+        return false;
+    }
+    if (file.size > 4194304) {
+        let e = createElementFromHTML(`<span id="photo-error">Taille de l'image supérieure à 4Mo: ${(file.size / 1024 / 1024).toFixed(2)}Mo</span>`);
+        insertAfter(e, box);
+        return false;
+    }
+    let container = document.querySelector('.container');
+    container.style.display = "none";
+    img.style.display = "block";
+    let url = URL.createObjectURL(file)
+    img.src= url;
+    upload.url = url;
+    editUpload('img', file);
+    return true;
+}
+
+function getExtension(name) {
+    return name.split('.').pop();
+}
+
+function selectClick() {
+    let f = document.querySelector('#select-container i');
+    if (f.className == "fa-solid fa-chevron-down" || f.className == "fa-solid fa-chevron-down up") {
+        f.className = "fa-solid fa-chevron-down down"; 
+    }
+    else {
+        f.className = "fa-solid fa-chevron-down up";
+    }
+
+}
+
+function editUpload(type, object) {
+    switch (type) {
+        case "img":
+            upload.image = object;
+            break;
+        case "title":
+            upload.title = object.target.value;
+            break;
+        case "category":
+            upload.category = object.target.value;
+            break;
+    }
+    let submit = document.querySelector('#submit');
+    if (upload.image && upload.title && upload.category) {
+        submit.className = 'submit-selected';
+    }
+    else {
+        submit.className = '';
+    }
+}
+
+
+async function submitPhoto(e) {
+    let data = new FormData();
+    data.append('image', upload.image, upload.image.name);
+    data.append('title', upload.title);
+    data.append('category', upload.category);
+    if (e.className == 'submit-selected' && upload.title && upload.image && upload.category) {
+        let response = await fetch(`http://localhost:5678/api/works`, {
+            method: 'POST',
+            body: data,
+            contentType: 'multipart/form-data',
+            headers: {
+                'Authorization': 'Bearer '+ localStorage.token
+            }});
+
+        if (response.status == 201) {
+            let json = await response.json();
+            let element = createElementFromHTML(`<figure>
+                <img crossorigin="anonymous" src="${upload.url}" alt=${json.title}>
+                <figcaption>${json.title}</figcaption>
+                </figure>`);
+            let article = new Article(element, json.categoryId, upload.url, json.title, json.id);
+            galerySet.add(article);
+            gallery.appendChild(element);
+            let background = document.querySelector('#edit-background');
+            background.remove();
+            create_modal();
+        }
+    }
+}
